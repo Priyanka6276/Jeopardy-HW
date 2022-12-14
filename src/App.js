@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import {useState, useEffect} from "react"
 import './App.css';
 
+import Header from "./components/Header"
+import Answer from "./components/Answer"
+
+//need to finish styling and make the buttons work :(
 function App() {
+  const [question, setQuestion] = useState(null)
+  const getQuestion = async () => {
+    try {
+      const response = await fetch(
+        `https://jservice.io/api/random`
+      )
+       const data = await response.json()
+       setQuestion(data)
+    }catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect( () => {
+    getQuestion("113283")
+  },[])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Header />
+     <Answer random = {question} /> 
     </div>
   );
 }
